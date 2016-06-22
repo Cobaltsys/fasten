@@ -1,0 +1,57 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<project xmlns="http://maven.apache.org/POM/4.0.0"
+    xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+    xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/xsd/maven-4.0.0.xsd">
+    <modelVersion>4.0.0</modelVersion>
+    
+    <parent>
+        <artifactId>fasten</artifactId>
+        <groupId>ru.sp.fasten</groupId>
+        <version>1.0.0-SNAPSHOT</version>
+        
+        <relativePath>../pom.xml</relativePath>
+    </parent>
+    
+    <artifactId>fasten-changelog</artifactId>
+    <packaging>pom</packaging>
+    
+    <properties>
+        <profile>dev</profile>
+        <version.org.liquibase>3.3.2</version.org.liquibase>
+        <postgresql.version>9.1-901.jdbc4</postgresql.version>
+    </properties>
+    
+    <build>
+        <plugins>
+            <plugin>
+                <groupId>org.liquibase</groupId>
+                <artifactId>liquibase-maven-plugin</artifactId>
+                <version>${version.org.liquibase}</version>
+                <configuration>
+                    <propertyFile>${profile}.properties</propertyFile>
+                    <promptOnNonLocalDatabase>false</promptOnNonLocalDatabase>
+                    <driver>org.postgresql.Driver</driver>
+                    <changeLogFile>changelog-master.xml</changeLogFile>
+                </configuration>
+                <goals>
+                    <goal>update</goal>
+                </goals>
+                <executions>
+                    <execution>
+                        <phase>process-resources</phase>
+                        <goals>
+                            <goal>update</goal>
+                        </goals>
+                    </execution>
+                </executions>
+                <dependencies>
+                    <dependency>
+                        <groupId>postgresql</groupId>
+                        <artifactId>postgresql</artifactId>
+                        <version>${postgresql.version}</version>
+                    </dependency>
+                </dependencies>
+            </plugin>
+        </plugins>
+    </build>
+</project>
